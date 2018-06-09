@@ -1,5 +1,7 @@
 package com.quadro.quadroapp;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.ToggleButton;
 
 public class quadro_main extends AppCompatActivity {
+
+    private final static int REQUEST_ENABLE_BT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +26,30 @@ public class quadro_main extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        bluetoothConnection.bluetoothSetup(this, REQUEST_ENABLE_BT);
+
+
+        Button send = (Button) findViewById(R.id.button_send);
+        Button connect = (Button) findViewById(R.id.button_connect);
+
+        Switch powerSwitch = (Switch) findViewById(R.id.switch_on);
+        powerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    bluetoothConnection.sendMessageToPi("ON");
+                } else {
+                    bluetoothConnection.sendMessageToPi("OFF");
+                    // The toggle is disabled
+                }
+            }
+        });
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "t15035@hb.dhbw-stuttgart.de\nt15043@hb.dhbw-stuttgart.de", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -46,7 +73,15 @@ public class quadro_main extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
+
+    public void onConnect(View view){
+        bluetoothConnection.connectToRaspberryPi();
+    }
+
+    public void onSend(View view){
+        bluetoothConnection.test();
+    }
+
 }
