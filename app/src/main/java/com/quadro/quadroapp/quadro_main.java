@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,10 +19,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import static android.content.ContentValues.TAG;
+
 public class quadro_main extends AppCompatActivity {
 
     private final static int REQUEST_ENABLE_BT = 1;
-    TextView textView; //hier
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class quadro_main extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         bluetoothConnection.bluetoothSetup(this, REQUEST_ENABLE_BT);
+        bluetoothConnection.connectToRaspberryPi();
 
         Button send = (Button) findViewById(R.id.button_send);
         Button connect = (Button) findViewById(R.id.button_connect);
@@ -40,24 +43,43 @@ public class quadro_main extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     bluetoothConnection.sendMessageToPi("ON");
+                    Log.d(TAG,"msg: POWER ON" );
                 } else {
                     bluetoothConnection.sendMessageToPi("OFF");
+                    Log.d(TAG,"msg: POWER OFF" );
                     // The toggle is disabled
                 }
             }
         });
 
-
-        TextView statuswindow = (TextView)findViewById(R.id.textView); //hier
-        powerSwitch.setOnCheckedChangeListener(this);
-
-        @Override
-
-            if(powerSwitch.isChecked()){
-                textView.setText("Switch ON");
-            }else{
-                textView.setText("Switch OFF");
+        Switch startSwitch = (Switch) findViewById(R.id.switch_enablestartseq);
+        startSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    bluetoothConnection.sendMessageToPi("START ON");
+                    Log.d(TAG,"msg: START ON" );
+                } else {
+                    bluetoothConnection.sendMessageToPi(" START OFF");
+                    Log.d(TAG,"msg: START OFF" );
+                    // The toggle is disabled
+                }
             }
+        });
+
+        Switch rotorSwitch = (Switch) findViewById(R.id.switch_enablerotors);
+        rotorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    bluetoothConnection.sendMessageToPi("ROTORS ON");
+                    Log.d(TAG,"msg: ROTORS ON" );
+                } else {
+                    bluetoothConnection.sendMessageToPi("ROTORS OFF");
+                    Log.d(TAG,"msg: ROTORS OFF" );
+                    // The toggle is disabled
+                }
+            }
+        });
+
 
 
 
