@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -24,6 +25,8 @@ import static android.content.ContentValues.TAG;
 public class quadro_main extends AppCompatActivity {
 
     private final static int REQUEST_ENABLE_BT = 1;
+    private SeekBar throttleseek;
+    private TextView throttletext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +41,16 @@ public class quadro_main extends AppCompatActivity {
         Button send = (Button) findViewById(R.id.button_send);
         Button connect = (Button) findViewById(R.id.button_connect);
 
-        Switch powerSwitch = (Switch) findViewById(R.id.switch_on);
+        Button plus =(Button) findViewById(R.id.button_plus);
+        Button minus =(Button) findViewById(R.id.button_minus);
+
+                Switch powerSwitch = (Switch) findViewById(R.id.switch_on);
         powerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     bluetoothConnection.sendMessageToPi("ON");
                     Log.d(TAG,"msg: POWER ON" );
+
                 } else {
                     bluetoothConnection.sendMessageToPi("OFF");
                     Log.d(TAG,"msg: POWER OFF" );
@@ -80,6 +87,34 @@ public class quadro_main extends AppCompatActivity {
             }
         });
 
+        throttleseek = (SeekBar) findViewById(R.id.throttleseek) ;
+        throttletext = (TextView) findViewById(R.id.throttletext);
+
+        throttleseek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                int value;
+                String valuestring;
+
+                value = 40 + 30*progress/100;
+                throttletext.setText("" + value + "% THROTTLE");
+
+                valuestring = String.valueOf(value);
+                Log.d(TAG,"PWM-percentage " + valuestring +"%" );
+                bluetoothConnection.sendMessageToPi(valuestring);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
 
 
@@ -123,5 +158,20 @@ public class quadro_main extends AppCompatActivity {
     public void onSend(View view){
         bluetoothConnection.test();
     }
+
+    public void onPushPlus(View view){
+        int value;
+        value = throttleseek.getProgress();
+        value = value + 3;
+        throttleseek.setProgress(value);
+    }
+
+    public void onPushMinus(View view){
+        int value;
+        value = throttleseek.getProgress();
+        value = value - 3;
+        throttleseek.setProgress(value);
+    }
+
 
 }

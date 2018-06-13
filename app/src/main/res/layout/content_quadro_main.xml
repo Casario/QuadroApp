@@ -7,6 +7,7 @@
     android:background="@drawable/quadro_background_final"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".quadro_main"
+    android:padding="20dp"
     tools:showIn="@layout/activity_quadro_main">
 
 
@@ -16,8 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
-        android:text="Projekt: \tEntwicklung eines Quadrocopters \nAutoren:\tKevin Sieg und Daniel Rapp \nDatum:\t\t16.07.2018 \nVersion:\t1.01  " />
+        android:layout_marginBottom="21dp"
+        android:text="" />
 
     <Switch
         android:id="@+id/switch_enablerotors"
@@ -43,7 +44,7 @@
         android:layout_height="65dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="136dp"
         android:checked="false"
         android:text="POWERSWITCH ON" />
 
@@ -53,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView4"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:background="@color/colorPrimaryDark"
         android:onClick="onConnect"
         android:text="BT Connect"
@@ -63,13 +64,58 @@
         android:id="@+id/button_send"
         android:layout_width="118dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/switch_on"
         android:layout_alignStart="@+id/textView4"
-        android:layout_marginTop="76dp"
+        android:layout_marginBottom="-136dp"
         android:background="@color/colorPrimaryDark"
-        android:onClick="onSend"
+        android:onClick="onPushButton"
         android:text="BT Test"
         android:textColor="@color/colorWhite" />
 
+    <TextView
+        android:id="@+id/throttletext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/switch_enablerotors"
+        android:layout_centerHorizontal="true"
+        android:text="0% THROTTLE"
+        android:textSize="25sp" />
+
+    <SeekBar
+        android:id="@+id/throttleseek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="108dp"
+        android:maxHeight="30dip"
+        android:minHeight="25dip"
+        android:scrollbarSize="30dp" />
+
+    <Button
+        android:id="@+id/button_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignEnd="@+id/button_connect"
+        android:background="@color/colorPrimaryDark"
+        android:onClick="onPushMinus"
+        android:text="-"
+        android:textColor="@color/colorWhite"
+        android:textSize="32sp"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/button_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="70dp"
+        android:background="@color/colorPrimaryDark"
+        android:onClick="onPushPlus"
+        android:text="+"
+        android:textColor="@color/colorWhite"
+        android:textSize="30sp" />
 
 </RelativeLayout>
