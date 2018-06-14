@@ -48,11 +48,11 @@ public class quadro_main extends AppCompatActivity {
         powerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    bluetoothConnection.sendMessageToPi("ON");
+                    bluetoothConnection.sendMessageToPi("POWER ON");
                     Log.d(TAG,"msg: POWER ON" );
 
                 } else {
-                    bluetoothConnection.sendMessageToPi("OFF");
+                    bluetoothConnection.sendMessageToPi("POWER OFF");
                     Log.d(TAG,"msg: POWER OFF" );
                     // The toggle is disabled
                 }
@@ -66,7 +66,7 @@ public class quadro_main extends AppCompatActivity {
                     bluetoothConnection.sendMessageToPi("START ON");
                     Log.d(TAG,"msg: START ON" );
                 } else {
-                    bluetoothConnection.sendMessageToPi(" START OFF");
+                    bluetoothConnection.sendMessageToPi("START OFF");
                     Log.d(TAG,"msg: START OFF" );
                     // The toggle is disabled
                 }
